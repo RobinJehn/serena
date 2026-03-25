@@ -9,7 +9,8 @@ project_name: "project_name"
 #   haxe                java                julia               kotlin              lua
 #   markdown
 #   matlab              nix                 pascal              perl                php
-#   php_phpactor        powershell          python              python_jedi         r
+#   php_phpactor        powershell          python              python_jedi         python_ty
+#   r
 #   rego                ruby                ruby_solargraph     rust                scala
 #   swift               terraform           toml                typescript          typescript_vts
 #   vue                 yaml                zig
