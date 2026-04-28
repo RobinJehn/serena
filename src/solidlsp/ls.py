@@ -818,7 +818,7 @@ class SolidLanguageServer(ABC):
                         "severity": item["severity"],
                         "message": item["message"],
                         "range": item["range"],
-                        "code": item["code"],  # type: ignore
+                        "code": item.get("code"),  # type: ignore
                     }
                     if "source" in item:
                         new_item["source"] = item["source"]
