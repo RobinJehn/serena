@@ -89,7 +89,10 @@ class TypeScriptLanguageServer(SolidLanguageServer):
         self.server_ready = threading.Event()
         self.initialize_searcher_command_available = threading.Event()
 
-        # Progress tracking for $/progress notifications (project indexing, etc.)
+        # tracking asynchronous diagnostics publication
+        self._published_diagnostics_timeout = 5.0
+
+        # tracking project indexing progress
         self._progress_lock = threading.Lock()
         self._active_progress_tokens: set[str] = set()
         self._indexing_complete = threading.Event()
@@ -243,9 +246,11 @@ class TypeScriptLanguageServer(SolidLanguageServer):
                     "signatureHelp": {"dynamicRegistration": True},
                     "codeAction": {"dynamicRegistration": True},
                     "rename": {"dynamicRegistration": True, "prepareSupport": True},
+                    "publishDiagnostics": {"relatedInformation": True},
                 },
                 "workspace": {
                     "workspaceFolders": True,
+                    "configuration": True,
                     "didChangeConfiguration": {"dynamicRegistration": True},
                     "symbol": {"dynamicRegistration": True},
                 },
@@ -396,6 +401,24 @@ class TypeScriptLanguageServer(SolidLanguageServer):
                 "TypeScript project indexing did not complete within %.0fs; proceeding anyway",
                 self.INDEXING_PROGRESS_TIMEOUT,
             )
+
+    @override
+    def _get_published_diagnostics_uri(self, request_uri: str) -> str:
+        if os.name != "nt" or not request_uri.startswith("file:///"):
+            return request_uri
+
+        path_part = request_uri[len("file:///") :]
+        if len(path_part) >= 2 and path_part[0].isalpha() and path_part[1] == ":":
+            return f"file:///{path_part[0].lower()}%3A{path_part[2:]}"
+        return request_uri
+
+    @override
+    def _get_published_diagnostics_wait_timeout(self, pull_diagnostics_failed: bool) -> float:
+        return self._published_diagnostics_timeout
+
+    @override
+    def _accept_published_diagnostics(self, diagnostics: list[ls_types.Diagnostic]) -> bool:
+        return bool(diagnostics)
 
     @override
     def _get_wait_time_for_cross_file_referencing(self) -> float:
