@@ -663,6 +663,8 @@ class GetDiagnosticsForFileTool(Tool, ToolMarkerSymbolicRead):
     Gets diagnostics for a file, optionally restricted to a line range, grouped by file, severity, and containing symbol.
     """
 
+    _ENABLE_DIAGNOSTICS: bool = True
+
     def apply(
         self,
         relative_path: str,
@@ -714,10 +716,12 @@ class GetDiagnosticsForFileTool(Tool, ToolMarkerSymbolicRead):
         return self._limit_length(result, max_answer_chars)
 
 
-class GetDiagnosticsForSymbolTool(Tool, ToolMarkerSymbolicRead):
+class GetDiagnosticsForSymbolTool(Tool, ToolMarkerSymbolicRead, ToolMarkerOptional):
     """
     Gets diagnostics for a symbol and, optionally, for symbols that reference it.
     """
+
+    _ENABLE_DIAGNOSTICS: bool = True
 
     def apply(
         self,

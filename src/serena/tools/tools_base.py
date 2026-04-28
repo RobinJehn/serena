@@ -165,6 +165,8 @@ class Tool(Component):
     _last_tool_call_client_str: str | None = None
     """We can only get the client info from within a tool call. Each tool call will update this variable."""
 
+    _ENABLE_DIAGNOSTICS: bool = False
+
     def __init__(self, agent: "SerenaAgent"):
         super().__init__(agent)
 
@@ -387,6 +389,8 @@ class Tool(Component):
         self,
         edited_file_paths: Iterable["EditedFilePath"],
     ) -> PublishedDiagnosticsSnapshot | None:
+        if not self._ENABLE_DIAGNOSTICS:
+            return None
         if self.agent.get_language_backend() != LanguageBackend.LSP:
             return None
 
@@ -430,9 +434,14 @@ class Tool(Component):
         self,
         default_result: str,
         edited_file_paths: Iterable["EditedFilePath"],
-        diagnostics_snapshot: PublishedDiagnosticsSnapshot | None,
+        before_edit_diagnostics_snapshot: PublishedDiagnosticsSnapshot | None,
     ) -> str:
-        if diagnostics_snapshot is None or self.agent.get_language_backend() != LanguageBackend.LSP:
+        if not self._ENABLE_DIAGNOSTICS:
+            return default_result
+
+        # TODO: this is weird, it works because before_edit_diagnostics_snapshot is only None when diagnostics
+        #   are disabled, not when they are empty. A part of the general design flaws introduced by agent-generated code
+        if before_edit_diagnostics_snapshot is None or self.agent.get_language_backend() != LanguageBackend.LSP:
             return default_result
 
         # collecting diagnostics state after the edit
@@ -448,7 +457,7 @@ class Tool(Component):
 
             published_diagnostics = language_server.request_published_text_document_diagnostics(
                 relative_file_path=edited_file_path.after_relative_path,
-                after_generation=diagnostics_snapshot.generation_by_after_path.get(edited_file_path.after_relative_path, -1),
+                after_generation=before_edit_diagnostics_snapshot.generation_by_after_path.get(edited_file_path.after_relative_path, -1),
                 timeout=2.5,
                 min_severity=2,
                 allow_cached=True,
@@ -465,7 +474,7 @@ class Tool(Component):
                 continue
 
             saw_diagnostics_result = True
-            existing_warning_identities = diagnostics_snapshot.warning_identities_by_before_path.get(
+            existing_warning_identities = before_edit_diagnostics_snapshot.warning_identities_by_before_path.get(
                 edited_file_path.before_relative_path, set()
             )
             new_warning_identities: set[DiagnosticIdentity] = set()

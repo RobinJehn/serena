@@ -169,6 +169,8 @@ class ReplaceContentTool(Tool, ToolMarkerCanEdit):
     Replaces content in a file (optionally using regular expressions).
     """
 
+    _CAPTURE_DIAGNOSTICS: bool = False
+
     def apply(
         self,
         relative_path: str,

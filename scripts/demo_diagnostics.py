@@ -16,7 +16,7 @@ from serena.agent import SerenaAgent
 from serena.config.serena_config import LanguageBackend, ProjectConfig, RegisteredProject, SerenaConfig
 from serena.constants import REPO_ROOT
 from serena.project import Project
-from serena.tools import CreateTextFileTool, GetDiagnosticsForFileTool, GetDiagnosticsForSymbolTool, ReplaceContentTool
+from serena.tools import CreateTextFileTool, GetDiagnosticsForFileTool, GetDiagnosticsForSymbolTool, ReplaceContentTool, Tool
 from solidlsp.ls_config import Language
 
 SEPARATOR = "=" * 80
@@ -69,6 +69,8 @@ def parse_edit_diagnostics_result(result: str) -> dict:
 
 
 if __name__ == "__main__":
+    Tool._ENABLE_DIAGNOSTICS = True
+
     temp_dir = Path(tempfile.mkdtemp(prefix="serena_demo_", dir=REPO_PATH))
     temp_file = temp_dir / "demo_temp_diagnostics.py"
     relative_path = temp_file.relative_to(REPO_PATH).as_posix()
