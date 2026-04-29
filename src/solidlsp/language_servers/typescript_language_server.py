@@ -298,6 +298,10 @@ class TypeScriptLanguageServer(SolidLanguageServer):
         def execute_client_command_handler(params: dict) -> list:
             return []
 
+        def configuration_handler(params: dict) -> list:
+            items = params.get("items", [])
+            return [{} for _ in items]
+
         def do_nothing(params: dict) -> None:
             return
 
@@ -357,6 +361,7 @@ class TypeScriptLanguageServer(SolidLanguageServer):
                         self._indexing_complete.set()
 
         self.server.on_request("client/registerCapability", register_capability_handler)
+        self.server.on_request("workspace/configuration", configuration_handler)
         self.server.on_notification("window/logMessage", window_log_message)
         self.server.on_request("workspace/executeClientCommand", execute_client_command_handler)
         self.server.on_request("window/workDoneProgress/create", work_done_progress_create)
