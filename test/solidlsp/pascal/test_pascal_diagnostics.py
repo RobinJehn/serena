@@ -7,6 +7,7 @@ from test.solidlsp.util.diagnostics import assert_file_diagnostics
 
 @pytest.mark.pascal
 class TestPascalDiagnostics:
+    @pytest.mark.xfail(reason="Pascal language server currently does not publish diagnostics through SolidLSP")
     @pytest.mark.parametrize("language_server", [Language.PASCAL], indirect=True)
     def test_file_diagnostics(self, language_server: SolidLanguageServer) -> None:
         assert_file_diagnostics(

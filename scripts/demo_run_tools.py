@@ -17,6 +17,7 @@ from serena.tools import (
     JetBrainsFindSymbolTool,
     JetBrainsGetSymbolsOverviewTool,
     JetBrainsInlineSymbol,
+    JetBrainsRunInspectionsTool,
     JetBrainsSafeDeleteTool,
     SearchForPatternTool,
 )
@@ -38,11 +39,12 @@ if __name__ == "__main__":
     safe_delete_tool = agent.get_tool(JetBrainsSafeDeleteTool)
     inline_symbol = agent.get_tool(JetBrainsInlineSymbol)
     diagnostics_in_file_tool = agent.get_tool(GetDiagnosticsForFileTool)
+    jb_inspections_tool = agent.get_tool(JetBrainsRunInspectionsTool)
 
     result = agent.execute_task(
         lambda: diagnostics_in_file_tool.apply(
             # name_path_pattern="SerenaAgent",
-            relative_path="scripts/broken_python.py",
+            relative_path="test/resources/repos/clojure/test_repo/src/test_app/diagnostics_sample.clj",
             # keep_definition=True,
         )
     )
