@@ -119,10 +119,10 @@ class TestGroovyLanguageServer:
                 pytrace=False,
             )
 
-    @pytest.mark.parametrize("language_server", [Language.GROOVY], indirect=True)
-    def test_file_diagnostics(self, language_server: SolidLanguageServer) -> None:
+    def test_file_diagnostics(self) -> None:
+        assert self.language_server is not None
         assert_file_diagnostics(
-            language_server,
+            self.language_server,
             "src/main/groovy/com/example/DiagnosticsSample.groovy",
             (),
             min_count=1,
