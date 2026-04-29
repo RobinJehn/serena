@@ -777,6 +777,14 @@ class PascalLanguageServer(SolidLanguageServer):
             if value:
                 initialization_options[var] = value
 
+        initialization_options.update(
+            {
+                "checkSyntax": True,
+                "publishDiagnostics": True,
+                "showSyntaxErrors": True,
+            }
+        )
+
         initialize_params = {
             "locale": "en",
             "capabilities": {
