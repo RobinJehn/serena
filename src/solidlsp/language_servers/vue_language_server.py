@@ -598,6 +598,7 @@ class VueLanguageServer(SolidLanguageServer):
                     "signatureHelp": {"dynamicRegistration": True},
                     "codeAction": {"dynamicRegistration": True},
                     "rename": {"dynamicRegistration": True, "prepareSupport": True},
+                    "publishDiagnostics": {"relatedInformation": True},
                 },
                 "workspace": {
                     "workspaceFolders": True,

@@ -1,9 +1,5 @@
-module DiagnosticsSample exposing (brokenFactory, brokenConsumer)
+module DiagnosticsSample exposing (brokenFactory)
 
 brokenFactory : String
 brokenFactory =
-    missingGreeting
-
-brokenConsumer : String
-brokenConsumer =
-    missingConsumerValue
+    "unterminated

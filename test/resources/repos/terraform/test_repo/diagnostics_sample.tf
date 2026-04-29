@@ -1,4 +1,4 @@
 resource "aws_instance" "broken" {
-  ami           = missingGreeting
+  ami           = 
   instance_type = "t2.micro"
 }

@@ -1,4 +1,4 @@
 program DiagnosticsSample;
 begin
-  writeln(missingGreeting);
+  writeln(
 end.

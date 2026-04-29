@@ -1,11 +1,17 @@
+import shutil
+
 import pytest
 
 from solidlsp import SolidLanguageServer
 from solidlsp.ls_config import Language
 from test.solidlsp.util.diagnostics import assert_file_diagnostics
 
+pytestmark = [
+    pytest.mark.crystal,
+    pytest.mark.skipif(shutil.which("crystalline") is None, reason="Crystalline is not installed"),
+]
 
-@pytest.mark.crystal
+
 class TestCrystalDiagnostics:
     @pytest.mark.parametrize("language_server", [Language.CRYSTAL], indirect=True)
     def test_file_diagnostics(self, language_server: SolidLanguageServer) -> None:

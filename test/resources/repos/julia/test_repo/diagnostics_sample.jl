@@ -1,8 +1,3 @@
-function broken_factory()
-    missingGreeting
-end
-
-function broken_consumer()
-    value = broken_factory()
-    missingConsumerValue
+function broken_factory(
+    value = 1
 end

@@ -1,4 +1,4 @@
 program diagnostics_sample
   implicit none
-  print *, missingGreeting
+  print *, 
 end program diagnostics_sample
