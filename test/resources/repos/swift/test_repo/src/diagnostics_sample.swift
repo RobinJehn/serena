@@ -1,3 +1,3 @@
 func brokenFactory() -> String {
-    return "broken"
+    return
 }

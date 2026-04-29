@@ -422,10 +422,6 @@ class TypeScriptLanguageServer(SolidLanguageServer):
         return self._published_diagnostics_timeout
 
     @override
-    def _accept_published_diagnostics(self, diagnostics: list[ls_types.Diagnostic]) -> bool:
-        return bool(diagnostics)
-
-    @override
     def _get_wait_time_for_cross_file_referencing(self) -> float:
         return 2
 

@@ -781,13 +781,13 @@ class SolidLanguageServer(ABC):
         """
         Gets the timeout for waiting on published diagnostics after a diagnostics request.
         """
-        return 2.5 if pull_diagnostics_failed else 0.5
+        return 2.5
 
     def _accept_published_diagnostics(self, diagnostics: list[ls_types.Diagnostic]) -> bool:
         """
         Determines whether a published diagnostics payload should satisfy the current wait.
         """
-        return True
+        return bool(diagnostics)
 
     def _wait_for_relevant_published_diagnostics(
         self,
