@@ -357,7 +357,6 @@ class TestZigLanguageServer:
                 pytrace=False,
             )
 
-    @pytest.mark.xfail(reason="Zig language server currently does not publish diagnostics through SolidLSP")
     @pytest.mark.parametrize("language_server", [Language.ZIG], indirect=True)
     def test_file_diagnostics(self, language_server: SolidLanguageServer) -> None:
         assert_file_diagnostics(

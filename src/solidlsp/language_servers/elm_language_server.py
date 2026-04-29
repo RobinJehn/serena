@@ -128,6 +128,7 @@ class ElmLanguageServer(SolidLanguageServer):
                     "hover": {"dynamicRegistration": True, "contentFormat": ["markdown", "plaintext"]},
                     "codeAction": {"dynamicRegistration": True},
                     "rename": {"dynamicRegistration": True},
+                    "publishDiagnostics": {"relatedInformation": True},
                 },
                 "workspace": {
                     "workspaceFolders": True,

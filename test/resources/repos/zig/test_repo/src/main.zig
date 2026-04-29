@@ -1,5 +1,6 @@
 const std = @import("std");
 const calculator = @import("calculator.zig");
+const diagnostics_sample = @import("diagnostics_sample.zig");
 const math_utils = @import("math_utils.zig");
 
 pub fn main() !void {

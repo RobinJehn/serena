@@ -831,6 +831,7 @@ class PascalLanguageServer(SolidLanguageServer):
                     },
                     "formatting": {"dynamicRegistration": True},
                     "rangeFormatting": {"dynamicRegistration": True},
+                    "publishDiagnostics": {"relatedInformation": True},
                 },
                 "workspace": {
                     "workspaceFolders": True,
